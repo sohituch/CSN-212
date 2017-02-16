@@ -192,7 +192,7 @@ int main()
 	cout<<"Enter the option:\n";
 	cout<<"To insert an interval into interval tree: \"1 lowvalue highValue\"\n";
 	cout<<"To delete an interval from interval tree: \"2 lowvalue highValue\"\n";
-	cout<<"To searchNode an interval-overlap in a tree: \"3 low_value high_Value\"\n";
+	cout<<"To searchNode an interval-overlap in a tree: \"3 lowvalue highValue\"\n";
 	cout<<"To stop the execution:-1";
 	root=NULL;
 	while(value!=-1){
@@ -219,7 +219,7 @@ int main()
 		else if(value==3)
                 {
 			node* x=new node();
-			x=searchNode(temp);
+			x=searchtNode(temp);
 			cout<<x->low<<endl;
 		}
 		else if(value!=-1)
