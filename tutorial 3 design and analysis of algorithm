@@ -1,0 +1,231 @@
+// language- C++
+#include<iostream.h>
+using namespace std;
+
+int value=1;
+
+int maximumnumber(int x, int y)
+{
+	return (x>y)?x:y;
+}
+
+struct tnode
+{
+	int l,h,maxval;
+	tnode* left;
+	tnode* right;
+}
+;
+
+tnode * head=new tnode();
+void insert(tnode *temp)
+        {
+	temp->maxval=temp->h;
+	if(head==NULL)
+        {
+		head=temp;
+		head->left=NULL;
+		head->right=NULL;
+		return;
+	}
+	node* curr=head;
+	while(true){
+		curr->maxval=maximumnumber(current->maxval, temp->maxval);
+		if(temp->l <= current->l){
+			if(current->left) current=current->left;
+			else
+                        {
+				current->left=temp;
+				break;
+			}
+		}
+		else
+                        {
+			if(current->right) current=current->right;
+			else{
+				current->right=temp;
+				break;
+			}
+		}
+	}
+}
+bool check(tnode* tnode1, tnode* tnode2){
+	if(tnode1->l==tnode2->l && tnode1->h==tnode2->h) return true;
+	return false;
+}
+void tchangeNode(tnode* tnode1, tnode* tnode2)
+{
+	tnode1->l=tnode2->l;
+	tnode1->h=tnode2->h;
+}
+
+
+
+void deleteinterval(tnode* temp){
+	tnode* curr=head;
+	tnode *parent=head;
+	while(true){
+		if(curr==NULL){
+			cout<<"The interval you requested for deletion does not exist.\n";
+			break;
+		}
+		if(temp->l < curr->l)
+                {
+			parent=curr; curr=curr->left;
+		}
+		else if(temp->l > curr->l)
+                {
+			parent=curr;
+                        curr=curr->right;
+		}
+		else
+                {
+			remove(curr, parent, false);
+			break;
+		}
+	}
+}
+void Inorder(tnode* current){
+	if(current==NULL) return;
+	Inorder(current->left);
+	cout<<current->low<<" ";
+	Inorder(current->right);
+}
+
+tnode* searchtNode(tnode* temp)
+        {
+	tnode* curr=head;
+	while(true)
+                {
+		if(curr==NULL)
+                {
+			cout<<"No overlapping interval found."<<endl;
+			return NULL;
+		}
+		if((temp->l <= curr->h) && (temp->h >= curr->l))
+                {
+			cout<<"An overlapping interval found<<"\n";
+			return curr;
+		}
+		if(curr->left)
+                {
+			if(curr->left->maxval >= temp->l) curr=curr->left;
+		}
+		else if(curr->right)
+                {
+			if(curr->right->maxval >= temp->l) curr=curr->right;
+		}
+		else
+                {
+			cout<<"No overlapping interval found"<<"\n";
+			return NULL;
+		}
+
+	}
+}
+
+void removetnode(tnode* current, tnode* parent, bool head1){
+	
+	int child=0;
+	bool left=false, right=false;
+	if(current->l <= parent->l) 
+        left=true;
+	else 
+        right=true;
+
+	if(current->left) child++;
+	if(current->right) child++;
+	
+	if(child==0)
+        {
+		if(head1!=NULL)
+                {
+			parent=NULL;
+			return;
+		}
+		if(left!=NULL) 
+                parent->left=NULL;
+		else
+                parent->right=NULL;
+	}
+	else if(child==1){
+		if(head1){
+			if(current->left) root=root->left;
+			else root=root->right;
+			return;
+		}
+		if(left!=NULL)
+                {
+			if(current->right) parent->left=current->right;
+			else parent->left=current->left;
+		}
+		else
+                {
+			if(current->right) parent->right=current->right;
+			else parent->right=current->left;
+		}
+	        }
+	        else
+                {
+		tnode* temp=current;
+		temp=temp->left;
+		if(temp->right)
+                {
+			while(temp->right)
+                        {
+				parent=temp;
+				temp=temp->right;
+			}
+			changetNode(current, temp);
+			parent->right=NULL;
+		}
+		else
+                {
+			changetNode(current, temp);
+			remove(temp, current, false);
+		}
+	}
+}
+
+int main()
+{
+	cout<<"Enter the option:\n";
+	cout<<"To insert an interval into interval tree: \"1 lowvalue highValue\"\n";
+	cout<<"To delete an interval from interval tree: \"2 lowvalue highValue\"\n";
+	cout<<"To searchNode an interval-overlap in a tree: \"3 low_value high_Value\"\n";
+	cout<<"To stop the execution:-1";
+	root=NULL;
+	while(value!=-1){
+		tnode *temp=new node();
+		cin>>value;
+		if(value==1 || value==2 || value==3)
+                {
+			cin>>temp->l>>temp->h;
+			while(temp->h< temp->l)
+                        {
+				cout<<"Not a valid interval.please Enter the values again:\n";
+				cin>>temp->l
+                                cin>>temp->h;
+			}
+		}
+		if(value==1)
+                {
+			insert(temp);
+		}
+		else if(value==2)
+                {
+			deleteinterval(temp);
+		}
+		else if(value==3)
+                {
+			node* x=new node();
+			x=searchNode(temp);
+			cout<<x->low<<endl;
+		}
+		else if(value!=-1)
+                {
+			cout<<"Invalid input, please give input again"<<"\n";
+		}
+		}
+	return 0;
+}
